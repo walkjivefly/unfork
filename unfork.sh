@@ -3,6 +3,10 @@
 #
 # A little script to (attempt) to unfork (get off) a forked blockchain
 #
+# Copyright (c) 2019 Mark Brooker <mark@walkjivefly.com>
+# Distributed under the MIT software license, see the accompanying
+# file LICENSE or http://www.opensource.org/licenses/MIT
+#
 # Usage:
 #  unfork.sh [fix]
 #
@@ -20,22 +24,44 @@
 # - start the daemon
 #
 # Requirements:
-# - an explorer which provides getblockcount and getblockhash functions.
-#   (an Iquidus explorer is ideal)
+# - an explorer which provides getblockcount and getblockhash functions
+#   (an Iquidus explorer is ideal, Cryptoid is also known to work)
+#
+# Donations:
+#   If you find it useful, feel free to sling some crypto my way!
+#   - BTC: 35A8NHSFKIJAPGPDUGPOXC6TFCUHYYXVUP
+#   - LTC: MVMU2YikpetyFB4mUKt9rSzhUQhw87hjgV
+#   - CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
+#   - BLOCK: BX1SJMYmthjj3R6emV2LJgR3ZCMokJR1cx
 #
 
+
 # Customise these to suit your environment
-COIN="crown"
-CONFIG="/etc/masternodes/crownsn_n2.conf"	# could be "crown.conf"
-CONFIG="crown.conf"
-DATADIR="/var/lib/masternodes/crownsn2"		# could be "~/.crown"
-DATADIR="~/.crown"
-PREFIX="/usr/local/bin"				# path to Crown executables
+COIN="blocknetdx"
+#COIN="crown"
+CONFIG="$HOME/.blocknetdx/blocknetdx.conf"
+#CONFIG="/etc/masternodes/block_n1.conf"
+#CONFIG="crown.conf"
+DATADIR="$HOME/.blocknetdx"
+#DATADIR="/var/lib/masternodes/block1"
+#DATADIR="$HOME/.crown"
+#
+EXPLORER="https://chainz.cryptoid.info/block/api.dws?q="
+#EXPLORER="https://iquidus-01.crown.tech/api"	# explorer API base URL
+#
+PREFIX="/usr/local/bin"		# path to executables
+#
 DAEMON="${COIN}d"
 DAEMONCMD="${PREFIX}/${DAEMON} -conf=${CONFIG} -datadir=${DATADIR} "
 CLIENT="${COIN}-cli"
-CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} "
-EXPLORER="https://iquidus-01.crown.tech/api"	# explorer API base URL
+CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
+
+# We do this more than once and it's a friction point so make it a function
+get_explorer_hash() {
+    CHAINHASH=`curl --silent "${EXPLORER}getblockhash&height=$*" 2>/dev/null`
+    # Cryptoid explorer wraps quotes around the hash. Remove them!
+    echo ${CHAINHASH//'"'}
+}
 
 # Tell the user what's happening (useful if run from cron with redirection)
 echo "${0##*/} checking ${COIN} blockchain for forks at $(date)"
@@ -48,7 +74,7 @@ if [[ $? -eq 1 ]]; then
   echo "${DAEMON} not running. Please start it and try again"
   exit 4
 fi
-#echo "${DAEMON} PID is" ${PID}
+echo "${DAEMON} PID is ${PID}"
 
 # Find our current blockheight.
 OURHIGH=`${CLIENTCMD} getblockcount`
@@ -58,10 +84,10 @@ OURHASH=`${CLIENTCMD} getblockhash ${OURHIGH}`
 #echo
 
 # Find the current explorer blockheight.
-CHAINHIGH=`curl ${EXPLORER}/getblockcount 2>/dev/null`
+CHAINHIGH=`curl --silent ${EXPLORER}getblockcount 2>/dev/null`
 echo "Latest block at the explorer is ${CHAINHIGH}"
-CHAINHASH=`curl ${EXPLORER}/getblockhash?index=${CHAINHIGH} 2>/dev/null`
-#echo "with blockhash" ${CHAINHASH}
+CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
+#echo "with blockhash ${CHAINHASH}"
 echo
 
 # Give the user a sitrep.
@@ -82,7 +108,7 @@ elif [[ ${OURHIGH} -eq ${CHAINHIGH} ]]; then
   HIGH=${OURHIGH}
 else 
   echo "We are behind the explorer"
-  CHAINHASH=`curl ${EXPLORER}/getblockhash?index=${OURHIGH} 2>/dev/null`
+  CHAINHASH=$(get_explorer_hash ${OURHIGH})
   if [[ ${OURHASH} == ${CHAINHASH} ]]; then
     echo "but on the same chain. Nothing to do here!"
     exit 0
@@ -97,9 +123,11 @@ LAST=0
 LOW=1
 while true; do
   BLOCK=$(($((${LOW}+${HIGH}))/2))
-#  echo "Low=${LOW} High=${HIGH} Checking ${BLOCK}"
+  #echo "Low=${LOW} High=${HIGH} Checking ${BLOCK}"
   OURHASH=`${CLIENTCMD} getblockhash ${BLOCK}`
-  CHAINHASH=`curl ${EXPLORER}/getblockhash?index=${BLOCK} 2>/dev/null`
+  #echo "Our hash is ${OURHASH}"
+  CHAINHASH=$(get_explorer_hash ${BLOCK})
+  #echo "Explorer hash is ${CHAINHASH}"
   if [[ ${OURHASH} == ${CHAINHASH} ]]; then
     # go right
     LOW=${BLOCK}
@@ -114,7 +142,7 @@ while true; do
   fi
   LAST=${BLOCK}
 done
-echo "Forked at ${BLOCK}"
+echo "We forked at ${BLOCK}"
 echo "Our hash is ${OURHASH}"
 echo "Explorer has ${CHAINHASH}"
 echo
@@ -144,8 +172,6 @@ done
 # If it still hasn't shutdown, terminate with extreme prejudice.
 if [[ ${i} -eq 60 ]]; then
   echo "Shutdown still incomplete, killing the daemon."
-  echo "This could leave the chain in an inconsistent state and you might need"
-  echo "to start it manually with the -reindex option."
   kill -9 ${PID}
   sleep 10
   rm -f ${DATADIR}/${DAEMON}.pid ${DATADIR}/.lock
