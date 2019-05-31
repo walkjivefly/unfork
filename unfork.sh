@@ -64,7 +64,7 @@ get_explorer_hash() {
 }
 
 # Tell the user what's happening (useful if run from cron with redirection)
-echo "${0##*/} checking ${COIN} blockchain for forks at $(date)"
+echo "${0##*/} checking ${COIN} blockchain at $(date)"
 
 # Start off by looking for running daemon.
 PID=$(pidof ${DAEMON})
@@ -74,7 +74,8 @@ if [[ $? -eq 1 ]]; then
   echo "${DAEMON} not running. Please start it and try again"
   exit 4
 fi
-echo "${DAEMON} PID is ${PID}"
+#echo "${DAEMON} PID is ${PID}"
+echo
 
 # Find our current blockheight.
 OURHIGH=`${CLIENTCMD} getblockcount`
