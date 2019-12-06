@@ -22,7 +22,7 @@ systemnode.
 
 Enter
 ```
-sudo curl -o /usr/local/bin/unfork.sh https://github.com/walkjivefly/unfork/blob/master/unfork.sh
+sudo curl -o /usr/local/bin/unfork.sh https://raw.githubusercontent.com/walkjivefly/unfork/master/unfork.sh
 sudo chmod +x /usr/local/bin/unfork.sh
 ```
 If you login as root you don’t need to use the sudo prefix.
