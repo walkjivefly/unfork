@@ -47,7 +47,7 @@ DATADIR="$HOME/.blocknetdx"
 #DATADIR="$HOME/.crown"
 #
 EXPLORER="https://chainz.cryptoid.info/block/api.dws?q="
-#EXPLORER="https://iquidus-01.crown.tech/api"	# explorer API base URL
+#EXPLORER="https://iquidus-01.crownplatform.com/api"	# explorer API base URL
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
