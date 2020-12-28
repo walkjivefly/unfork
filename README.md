@@ -16,13 +16,13 @@ other chat channels. If the consensus is that the explorer is on the correct
 chain then you can re-run the script with the fix option and let it work its 
 magic.
 
-## Download and install
+# Download and install
 Sign on to your VPS with the userid you use to run your masternode or 
 systemnode.
 
 Enter
 ```
-sudo curl -o /usr/local/bin/unfork.sh https://github.com/walkjivefly/unfork/blob/master/unfork.sh
+sudo curl -o /usr/local/bin/unfork.sh https://raw.githubusercontent.com/walkjivefly/unfork/master/unfork.sh
 sudo chmod +x /usr/local/bin/unfork.sh
 ```
 If you login as root you don’t need to use the sudo prefix.
@@ -31,7 +31,7 @@ You can also use the script on your linux wallet machine.
 If you normally run the QT wallet you’ll need to shut it down and run 
 the daemon wallet instead.
 
-## Customise
+# Customise
 If your datadir is not called .blocknetdx and located in the logged in 
 user’s home directory then you need to customise the script.
 
@@ -41,7 +41,7 @@ CONFIG and DATADIR.
 Additionally, if you choose not to install the script in /usr/local/bin, 
 customise the PREFIX variable with the appropriate value.
 
-### Run manually
+## Run manually
 At any time simply enter:
 ```
 unfork.sh
@@ -55,7 +55,7 @@ unfork.sh fix
 to have it attempt to resolve the fork without you having to resync the
 entire blockchain.
 
-#### Unforked example
+### Unforked example
 These examples demonstrate use with the Crown blockchain. The script
 includes sample customisations for Crown (CRW) and for Blocknet (BLOCK).
 ```
@@ -68,7 +68,7 @@ Latest block at the explorer is 2392389
 We are level with the explorer
 and on the same chain. Nothing to do here!
 ```
-#### Forked example
+### Forked example
 ```
 crown@Crown-Testnet:~$ unfork.sh
 unfork.sh checking crown blockchain for forks at Wed May 29 14:59:55 UTC 2019
@@ -88,7 +88,7 @@ Here, the script has detected the node is behind the explorer and not on
 the same chain. It used a binary chop method to identify the fork point 
 and then reported the situation to the user.
 
-#### Forked example with fix option
+### Forked example with fix option
 If you’re running the script on your wallet machine rather than a node VPS, 
 it is good practice to make a backup of your wallet.dat before proceeding 
 further.
@@ -134,25 +134,25 @@ with an error message because the daemon was busy reloading the block index.
 A few seconds later the retried command worked and the daemon had caught 
 up with the explorer.
 
-## Automated execution
+# Automated execution
 You could create a crontab entry to run the script automatically but doing 
 so isn’t really recommended. The reason it’s not recommended is that the 
 explorer is not an Oracle; it’s just as likely to be on a forked chain as 
 anyone else.
 
 
-## Requirements
+# Requirements
 - an explorer which provides getblockcount and getblockhash functions 
 (an Iquidus explorer is ideal, Cryptoid is also known to work)
 
-## Donations
+# Donations
 If you find it useful, feel free to sling some crypto my way!
 - BTC: 35A8NHSFKIJAPGPDUGPOXC6TFCUHYYXVUP
 - LTC: MVMU2YikpetyFB4mUKt9rSzhUQhw87hjgV
 - CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
 - BLOCK: BX1SJMYmthjj3R6emV2LJgR3ZCMokJR1cx
 
-## MIT License
+# MIT License
 Copyright (c) 2019, Mark Brooker <mark@walkjivefly.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:

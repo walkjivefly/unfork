@@ -37,12 +37,11 @@
 
 
 # Customise these to suit your environment
-COIN="crown"
-DATADIR="$HOME/.crown"
-CONFIG="crown.conf"
+COIN="phore"
+DATADIR="$HOME/.phore"
+CONFIG="$DATADIR/phore.conf"
 #
-EXPLORER="https://chainz.cryptoid.info/crw/api.dws?q="
-#EXPLORER="https://iquidus-01.crownplatform.com/api"	# explorer API base URL
+EXPLORER="https://chainz.cryptoid.info/phr/api.dws?q="
 #
 PREFIX="/usr/local/bin"		# path to executables
 #

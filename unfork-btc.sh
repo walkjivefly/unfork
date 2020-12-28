@@ -34,15 +34,17 @@
 #   - CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
 #   - BLOCK: BVbpLYh8kCq8vXxLAa726azu3EZfXFkjRh
 #
-
+set -e
 
 # Customise these to suit your environment
-COIN="crown"
-DATADIR="$HOME/.crown"
-CONFIG="crown.conf"
-#
-EXPLORER="https://chainz.cryptoid.info/crw/api.dws?q="
-#EXPLORER="https://iquidus-01.crownplatform.com/api"	# explorer API base URL
+COIN="bitcoin"
+DATADIR="$HOME/.bitcoin"
+CONFIG="$DATADIR/bitcoin.conf"
+
+# Although chainz.cryptoid has BTC endpoints they don't seem to work.
+# Instead, use
+EXPLORER="https://api.blockcypher.com/v1/btc/main/blocks/"
+GETBLOCKCOUNT="https://blockchain.info/q/getblockcount"
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
@@ -53,8 +55,8 @@ CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
 
 # We do this more than once and it's a friction point so make it a function
 get_explorer_hash() {
-    CHAINHASH=`curl --silent "${EXPLORER}getblockhash&height=$*" 2>/dev/null`
-    # Cryptoid explorer wraps quotes around the hash. Remove them!
+    CHAINHASH=`curl --silent "${EXPLORER}$*" | jq .hash`
+    # Remove quotes around hash
     echo ${CHAINHASH//'"'}
 }
 
@@ -76,14 +78,14 @@ echo
 OURHIGH=`${CLIENTCMD} getblockcount`
 echo "Our latest block is ${OURHIGH}"
 OURHASH=`${CLIENTCMD} getblockhash ${OURHIGH}`
-#echo "with blockhash ${OURHASH}"
-#echo
+echo "with blockhash ${OURHASH}"
+echo
 
 # Find the current explorer blockheight.
-CHAINHIGH=`curl --silent ${EXPLORER}getblockcount 2>/dev/null`
+CHAINHIGH=`curl --silent "$GETBLOCKCOUNT"`
 echo "Latest block at the explorer is ${CHAINHIGH}"
 CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
-#echo "with blockhash ${CHAINHASH}"
+echo "with blockhash ${CHAINHASH}"
 echo
 
 # Give the user a sitrep.

@@ -37,12 +37,11 @@
 
 
 # Customise these to suit your environment
-COIN="crown"
-DATADIR="$HOME/.crown"
-CONFIG="crown.conf"
+COIN="pivx"
+DATADIR="$HOME/.pivx"
+CONFIG="$DATADIR/pivx.conf"
 #
-EXPLORER="https://chainz.cryptoid.info/crw/api.dws?q="
-#EXPLORER="https://iquidus-01.crownplatform.com/api"	# explorer API base URL
+EXPLORER="https://chainz.cryptoid.info/pivx/api.dws?q="
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
