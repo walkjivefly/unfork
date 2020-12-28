@@ -4,7 +4,7 @@ unfork.sh
 A little script to (attempt) to unfork (get off) a forked blockchain.
 It was designed to be used with the Crown blockchain on your VPS or 
 with a linux wallet. There are now customised versions for several different
-coins which you might run on a Blcoknet servicenode. 
+coins which you might run on a Blocknet servicenode. 
 
 It does two things:
 
