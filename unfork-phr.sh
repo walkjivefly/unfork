@@ -29,10 +29,10 @@
 #
 # Donations:
 #   If you find it useful, feel free to sling some crypto my way!
-#   - BTC: 35A8NHSFKIJAPGPDUGPOXC6TFCUHYYXVUP
+#   - BTC: 36TBpGyBaNm4UpETLuvs7RHNfoiAuz7mxD
 #   - LTC: MVMU2YikpetyFB4mUKt9rSzhUQhw87hjgV
 #   - CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
-#   - BLOCK: BX1SJMYmthjj3R6emV2LJgR3ZCMokJR1cx
+#   - BLOCK: BVbpLYh8kCq8vXxLAa726azu3EZfXFkjRh
 #
 
 
