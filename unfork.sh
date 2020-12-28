@@ -37,16 +37,11 @@
 
 
 # Customise these to suit your environment
-COIN="blocknetdx"
-#COIN="crown"
-CONFIG="$HOME/.blocknetdx/blocknetdx.conf"
-#CONFIG="/etc/masternodes/block_n1.conf"
-#CONFIG="crown.conf"
-DATADIR="$HOME/.blocknetdx"
-#DATADIR="/var/lib/masternodes/block1"
-#DATADIR="$HOME/.crown"
+COIN="crown"
+DATADIR="$HOME/.crown"
+CONFIG="crown.conf"
 #
-EXPLORER="https://chainz.cryptoid.info/block/api.dws?q="
+EXPLORER="https://chainz.cryptoid.info/crw/api.dws?q="
 #EXPLORER="https://iquidus-01.crown.tech/api"	# explorer API base URL
 #
 PREFIX="/usr/local/bin"		# path to executables
