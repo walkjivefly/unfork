@@ -2,8 +2,11 @@ unfork.sh
 =========
 
 A little script to (attempt) to unfork (get off) a forked blockchain.
-It’s designed to be used on your VPS or with a linux wallet. It does 
-two things:
+It was designed to be used with the Crown blockchain on your VPS or 
+with a linux wallet. There are now customised versions for several different
+coins which you might run on a Blcoknet servicenode. 
+
+It does two things:
 
 * Checks whether your node/wallet is on the same chain as the explorer.
 * Optionally executes the appropriate commands to get you back on the same chain as the explorer.
@@ -32,7 +35,7 @@ If you normally run the QT wallet you’ll need to shut it down and run
 the daemon wallet instead.
 
 # Customise
-If your datadir is not called .blocknetdx and located in the logged in 
+If your datadir is not called .crown and located in the logged in 
 user’s home directory then you need to customise the script.
 
 Use vi or nano or your favourite editor to customise the values for 
@@ -147,13 +150,13 @@ anyone else.
 
 # Donations
 If you find it useful, feel free to sling some crypto my way!
-- BTC: 35A8NHSFKIJAPGPDUGPOXC6TFCUHYYXVUP
-- LTC: MVMU2YikpetyFB4mUKt9rSzhUQhw87hjgV
-- CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
-- BLOCK: BX1SJMYmthjj3R6emV2LJgR3ZCMokJR1cx
+-   BTC: 36TBpGyBaNm4UpETLuvs7RHNfoiAuz7mxD
+-   LTC: MVMU2YikpetyFB4mUKt9rSzhUQhw87hjgV
+-   CRW: CRWFdMDPdi5uuzBZRi9kBi8pfDCbP6ZE2kYG
+- BLOCK: BVbpLYh8kCq8vXxLAa726azu3EZfXFkjRh
 
 # MIT License
-Copyright (c) 2019, Mark Brooker <mark@walkjivefly.com>
+Copyright (c) 2019-2020, Mark Brooker <mark@walkjivefly.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
