@@ -78,14 +78,14 @@ echo
 OURHIGH=`${CLIENTCMD} getblockcount`
 echo "Our latest block is ${OURHIGH}"
 OURHASH=`${CLIENTCMD} getblockhash ${OURHIGH}`
-echo "with blockhash ${OURHASH}"
+#echo "with blockhash ${OURHASH}"
 echo
 
 # Find the current explorer blockheight.
 CHAINHIGH=`curl --silent "$GETBLOCKCOUNT"`
 echo "Latest block at the explorer is ${CHAINHIGH}"
 CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
-echo "with blockhash ${CHAINHASH}"
+#echo "with blockhash ${CHAINHASH}"
 echo
 
 # Give the user a sitrep.
