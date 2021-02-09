@@ -42,9 +42,9 @@ DATADIR="$HOME/.bitcoin"
 CONFIG="$DATADIR/bitcoin.conf"
 
 # Although chainz.cryptoid has BTC endpoints they don't seem to work.
+# The blockcypher API can be laggy (by several minutes on latest block height)
 # Instead, use
-EXPLORER="https://api.blockcypher.com/v1/btc/main/blocks/"
-GETBLOCKCOUNT="https://blockchain.info/q/getblockcount"
+EXPLORER="https://blockchain.info/"
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
@@ -55,9 +55,8 @@ CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
 
 # We do this more than once and it's a friction point so make it a function
 get_explorer_hash() {
-    CHAINHASH=`curl --silent "${EXPLORER}$*" | jq .hash`
-    # Remove quotes around hash
-    echo ${CHAINHASH//'"'}
+    CHAINHASH=`curl --silent "${EXPLORER}/rawblock/$*" | jq -r .hash`
+    echo ${CHAINHASH}
 }
 
 # Tell the user what's happening (useful if run from cron with redirection)
@@ -82,7 +81,7 @@ OURHASH=`${CLIENTCMD} getblockhash ${OURHIGH}`
 echo
 
 # Find the current explorer blockheight.
-CHAINHIGH=`curl --silent "$GETBLOCKCOUNT"`
+CHAINHIGH=`curl --silent "${EXPLORER}latestblock" | jq -r .height`
 echo "Latest block at the explorer is ${CHAINHIGH}"
 CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
 #echo "with blockhash ${CHAINHASH}"
