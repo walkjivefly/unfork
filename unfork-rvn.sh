@@ -41,7 +41,10 @@ COIN="raven"
 DATADIR="$HOME/.raven"
 CONFIG="raven.conf"
 #
-EXPLORER="https://ravencoin.network/api/"
+# this one stopped working 15/02/2021
+#EXPLORER="https://ravencoin.network/api/"
+# but this one is OK
+EXPLORER="https://api.ravencoin.org/api/"
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
