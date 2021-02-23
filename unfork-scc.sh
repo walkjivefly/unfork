@@ -110,7 +110,7 @@ elif [[ ${OURHIGH} -eq ${CHAINHIGH} ]]; then
 else 
   echo "We are behind the explorer"
   CHAINHASH=$(get_explorer_hash ${OURHIGH})
-  echo "which has hash ${CHAINHASH}"
+  #echo "which has hash ${CHAINHASH}"
   if [[ ${OURHASH} == ${CHAINHASH} ]]; then
     echo "but on the same chain. Nothing to do here!"
     exit 0
