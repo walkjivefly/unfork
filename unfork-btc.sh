@@ -36,6 +36,16 @@
 #
 set -e
 
+# set colors
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+PURPLE='\033[1;35m'
+CYAN='\033[1;36m'
+WHITE='\033[1;37m'
+NC='\033[0m' # No Color
+ 
 # Customise these to suit your environment
 COIN="bitcoin"
 DATADIR="$HOME/.bitcoin"
@@ -87,9 +97,23 @@ CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
 #echo "with blockhash ${CHAINHASH}"
 echo
 
+BLOCKDIFF=$((${OURHIGH} - ${CHAINHIGH}))
+if [[ ${BLOCKDIFF} -le 0 ]]; then
+  ABSDIFF=$(( -${BLOCKDIFF} ))
+else
+  ABSDIFF=${BLOCKDIFF}
+fi
+if [[ ${ABSDIFF} -ge 3 ]]; then
+  COLOUR=${RED}
+elif [[ ${ABSDIFF} -ge 1 ]]; then
+  COLOUR=${YELLOW}
+else
+  COLOUR=${NC}
+fi
+
 # Give the user a sitrep.
 if [[ ${OURHIGH} -gt ${CHAINHIGH} ]]; then
-  echo "We are ahead of the explorer"
+  echo -e "${COLOUR}We are ${ABSDIFF} blocks ahead of the explorer${NC}"
   OURHASH=`${CLIENTCMD} getblockhash ${CHAINHIGH}`
   if [[ ${OURHASH} == ${CHAINHASH} ]]; then
     echo "but on the same chain. Nothing to do here!"
@@ -103,8 +127,8 @@ elif [[ ${OURHIGH} -eq ${CHAINHIGH} ]]; then
     exit 0
   fi
   HIGH=${OURHIGH}
-else 
-  echo "We are behind the explorer"
+else
+  echo -e "${COLOUR}We are ${ABSDIFF} blocks behind the explorer${NC}"
   CHAINHASH=$(get_explorer_hash ${OURHIGH})
   if [[ ${OURHASH} == ${CHAINHASH} ]]; then
     echo "but on the same chain. Nothing to do here!"
