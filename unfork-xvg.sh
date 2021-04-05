@@ -96,7 +96,7 @@ CHAINHASH=$(get_explorer_hash $CHAINHIGH)
 echo
 
 BLOCKDIFF=$((${OURHIGH} - ${CHAINHIGH}))
-if [[ ${BLOCKDIFF} -le 0 ]]; then
+if [[ ${BLOCKDIFF} -lt 0 ]]; then
   ABSDIFF=$(( -${BLOCKDIFF} ))
 else
   ABSDIFF=${BLOCKDIFF}
