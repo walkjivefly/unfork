@@ -61,6 +61,7 @@ CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
 
 # We do this more than once and it's a friction point so make it a function
 get_explorer_hash() {
+    sleep 1    # explorer is rate limited
     CHAINHASH=`curl --silent "${EXPLORER}getblockhash/?index=$*"|jq -r .hash`
     echo ${CHAINHASH}
 }
