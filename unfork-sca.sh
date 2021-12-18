@@ -46,11 +46,12 @@ WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # Customise these to suit your environment
-COIN="zenzo"
-DATADIR="$HOME/.zenzo"
-CONFIG="$DATADIR/zenzo.conf"
+COIN="scalaris"
+DATADIR="$HOME/.scalaris"
+CONFIG="scalaris.conf"
 #
-EXPLORER="https://chainz.cryptoid.info/znz/api.dws?q="
+EXPLORER="https://explorer.scalaris.info/api/"
+#EXPLORER="https://iquidus-01.crownplatform.com/api"	# explorer API base URL
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
@@ -61,8 +62,7 @@ CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
 
 # We do this more than once and it's a friction point so make it a function
 get_explorer_hash() {
-    CHAINHASH=`curl --silent "${EXPLORER}getblockhash&height=$*" 2>/dev/null`
-    # Cryptoid explorer wraps quotes around the hash. Remove them!
+    CHAINHASH=`curl --silent "${EXPLORER}getblockhash?index=$*" 2>/dev/null`
     echo ${CHAINHASH//'"'}
 }
 

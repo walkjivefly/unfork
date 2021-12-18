@@ -74,7 +74,7 @@ PID=$(pidof ${DAEMON})
 
 # If it's not running we're done.
 if [[ $? -eq 1 ]]; then
-  echo "${DAEMON} not running. Please start it and try again"
+  echo -e "${RED}${DAEMON} not running. Please start it and try again${NC}"
   exit 4
 fi
 #echo "${DAEMON} PID is ${PID}"
@@ -96,7 +96,7 @@ CHAINHASH=$(get_explorer_hash $CHAINHIGH)
 echo
 
 BLOCKDIFF=$((${OURHIGH} - ${CHAINHIGH}))
-if [[ ${BLOCKDIFF} -le 0 ]]; then
+if [[ ${BLOCKDIFF} -lt 0 ]]; then
   ABSDIFF=$(( -${BLOCKDIFF} ))
 else
   ABSDIFF=${BLOCKDIFF}
@@ -168,7 +168,7 @@ echo "Explorer has ${CHAINHASH}"
 echo
 
 if [[ $1 != "fix" ]]; then
-  echo "Run with unfork.sh fix to actually fix the fork"
+  echo -e "${YELLOW}Run with unfork.sh fix to actually fix the fork${NC}"
   exit
 fi
 
@@ -191,7 +191,7 @@ done
 
 # If it still hasn't shutdown, terminate with extreme prejudice.
 if [[ ${i} -eq 60 ]]; then
-  echo "Shutdown still incomplete, killing the daemon."
+  echo -e "${RED}Shutdown still incomplete, killing the daemon.${NC}"
   kill -9 ${PID}
   sleep 10
   rm -f ${DATADIR}/${DAEMON}.pid ${DATADIR}/.lock
@@ -205,4 +205,4 @@ ${DAEMONCMD} -daemon
 echo "Use the command"
 echo "  ${CLIENT} getblockcount"
 echo "to monitor the chain and make sure the daemon is resyncing."
-echo "You have at least $((${CHAINHIGH} - ${BLOCK} + 1)) blocks to catch up."
+echo -e "${YELLOW}You have at least $((${CHAINHIGH} - ${BLOCK} + 1)) blocks to catch up.${NC}"
