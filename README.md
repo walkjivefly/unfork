@@ -16,19 +16,23 @@ If you suspect you are forked, and the script says you are, then you should
 check if the explorer is believed to be on the correct chain before letting 
 it (attempt to) fix the problem. Ask in your coin's Discord or Telegram or
 other chat channels. If the consensus is that the explorer is on the correct 
-chain then you can re-run the script with the fix option and let it work its 
-magic.
+chain then:
+* Remove any existing `addnode=` lines from your coin config, eg: `crown.conf`
+* Add some `addnode=` entries to your coin config for nodes known to be on the correct chain. You can probably get this list from the coin explorer. If your explorer doesn't have this feature then ask in your coin's Discord or Telegram or other chat channels for some suitable node addresses.
+* Re-run the script with the fix option and let it work its magic.
 
 # Download and install
+These instructions are based on using the script to fix a Crown wallet or node. Mentally replace `Crown` by the name of your coin and you should be good to go.
+
 Sign on to your VPS with the userid you use to run your masternode or 
 systemnode.
 
 Enter
 ```
-sudo curl -o /usr/local/bin/unfork.sh https://raw.githubusercontent.com/walkjivefly/unfork/master/unfork.sh
+sudo curl -o /usr/local/bin/unfork.sh https://raw.githubusercontent.com/walkjivefly/unfork/master/unfork-xxx.sh
 sudo chmod +x /usr/local/bin/unfork.sh
 ```
-If you login as root you don’t need to use the sudo prefix.
+Replace `xxx` by the lowercase symbol for your coin. If you login as root you don’t need to use the sudo prefix.
 
 You can also use the script on your linux wallet machine. 
 If you normally run the QT wallet you’ll need to shut it down and run 
@@ -156,7 +160,7 @@ If you find it useful, feel free to sling some crypto my way!
 - BLOCK: BVbpLYh8kCq8vXxLAa726azu3EZfXFkjRh
 
 # MIT License
-Copyright (c) 2019-2020, Mark Brooker <mark@walkjivefly.com>
+Copyright (c) 2019-2021, Mark Brooker <mark@walkjivefly.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
