@@ -50,7 +50,10 @@ COIN="scc"
 DATADIR="$HOME/.stakecubecoin"
 CONFIG="stakecubecoin.conf"
 #
-EXPLORER="https://www.coinexplorer.net/api/v1/SCC/"
+#EXPLORER="https://scc.ccore.online/api/"                # rate limited 1 call per 10 seconds
+#EXPLORER="https://www.coinexplorer.net/api/v1/SCC/"     # rate limited and "sticky"
+EXPLORER="http://79.143.186.234/api/"                   # Iquidus alternative
+#BOOTSTRAP="https://stakecubecoin.net/bootstrap.zip"     # fyi
 #
 PREFIX="/usr/local/bin"		# path to executables
 #
@@ -61,11 +64,10 @@ CLIENTCMD="${PREFIX}/${CLIENT} -conf=${CONFIG} -datadir=${DATADIR}"
 
 # We do this more than once and it's a friction point so make it a function
 get_explorer_hash() {
-    CHAINHASH=`curl --silent "${EXPLORER}block?height=$*" | jq .result.hash 2>/dev/null`
-    # Remove quotes from around the result.
-    echo ${CHAINHASH//'"'}
-    # and it's rate limited to 1 call per second
-    sleep 1
+    CHAINHASH=$(curl --silent "${EXPLORER}getblockhash?index=$*" 2>/dev/null | jq -r .)
+    echo ${CHAINHASH}
+    # Some explorers are rate limited; set an appropriate delay
+    # sleep 1
 }
 
 # Tell the user what's happening (useful if run from cron with redirection)
@@ -86,17 +88,14 @@ fi
 OURHIGH=`${CLIENTCMD} getblockcount`
 echo "Our latest block is ${OURHIGH}"
 OURHASH=`${CLIENTCMD} getblockhash ${OURHIGH}`
-#echo "with blockhash ${OURHASH}"
+echo "with blockhash ${OURHASH}"
 #echo
 
 # Find the current explorer blockheight.
-CHAIN=`curl --silent ${EXPLORER}block/latest 2>/dev/null`
-CHAINHIGH=$(echo $CHAIN | jq .result.height)
-CHAINHIGH=${CHAINHIGH//'"'}
+CHAINHIGH=$(curl --silent ${EXPLORER}getblockcount 2>/dev/null | jq -r .) # Iquidus alternative
 echo "Latest block at the explorer is ${CHAINHIGH}"
-CHAINHASH=$(echo $CHAIN | jq .result.hash)
-CHAINHASH=${CHAINHASH//'"'}
-#echo "with blockhash ${CHAINHASH}"
+CHAINHASH=$(get_explorer_hash ${CHAINHIGH})
+echo "with blockhash ${CHAINHASH}"
 echo
 sleep 1
 
